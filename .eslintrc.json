@@ -1,0 +1,92 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "prettier/prettier": 0,
+    "complexity": ["warn", { "max": 10 }],
+    "max-len": ["off", { "code": 120 }],
+    "no-trailing-spaces": "warn",
+    "quotes": ["warn", "single"],
+    "react/jsx-indent": "warn",
+    "react/jsx-indent-props": "warn",
+    "@typescript-eslint/indent": ["warn", 2, { "SwitchCase": 1 }],
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/member-ordering": "warn",
+    "@typescript-eslint/prefer-optional-chain": "warn",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "variable",
+        "format": ["camelCase", "PascalCase", "snake_case", "UPPER_CASE"],
+        "leadingUnderscore": "allow",
+        "trailingUnderscore": "allow"
+      }
+    ],
+    "@typescript-eslint/consistent-type-assertions": "warn",
+    "@typescript-eslint/typedef": "warn",
+    "@typescript-eslint/no-require-imports": "warn",
+    "@typescript-eslint/no-empty-function": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-one-expression-per-line": "warn",
+    "react/jsx-curly-newline": "warn",
+    "react/jsx-wrap-multilines": "warn",
+    "react/destructuring-assignment": "off",
+    "react/display-name": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-closing-bracket-location": "warn",
+    "react/no-access-state-in-setstate": "warn",
+    "object-curly-newline": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react/no-array-index-key": "warn",
+    "import/prefer-default-export": "warn",
+    "react/state-in-constructor": "warn",
+    "react/static-property-placement": "warn",
+    "react/no-unused-state": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-debugger": 1,
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "import/extensions": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "error",
+    "camelcase": "off",
+    "react/no-unused-prop-types": "off",
+    "react/require-default-props": "off",
+    "@typescript-eslint/ban-types": "off",
+    "no-use-before-define": "off",
+    "react-hooks/rules-of-hooks": "warn",
+    "no-shadow": "off",
+    "curly": "off",
+    "quote-props": "warn",
+    "function-paren-newline": "warn",
+    "@typescript-eslint/no-shadow": ["warn"],
+    "arrow-parens": ["warn", "as-needed", { "requireForBlockBody": true }],
+    "implicit-arrow-linebreak": "warn",
+    "import/no-duplicates": "warn",
+    "no-confusing-arrow": "warn",
+    "nonblock-statement-body-position": "warn",
+    "operator-linebreak": ["warn", "before"]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
+}
