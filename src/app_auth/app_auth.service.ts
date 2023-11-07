@@ -17,15 +17,7 @@ export class AppAuthService {
     private readonly redisService: RedisService,
     private jwtService: JwtService){}
 
-    async signIn(bid:string, uid: string, token: string): Promise<any> {
-        let authOBj = await this.authRepository.findOneBy({access_token:token})
-        if (authOBj == null){
-            console.log("service find obj: ", authOBj)
-            return null
-        }
-        console.log("user auth:", authOBj)
-        this.logger.info(`service login: ${JSON.stringify(authOBj)}`)
-        
+    async signIn(bid:string, uid: string, token: string){
         // 写登录时间
         var ts = Date.now() / 1000;
         const rst:loginRsp = {
@@ -35,15 +27,11 @@ export class AppAuthService {
         return rst
     }
 
-    async checkSign(bid:string, uid:string, token:string):Promise<any>{
-        let cli = this.redisService.getClient();
-        const rkey = `auth:token:${uid}:${token}`
-        let val  = await cli.get(rkey)
+    async checkSign(bid:string, uid:string, token:string){
         
     }
 
     genJwt(uid:string, token:string):string{
-
         return ""
     }
 }
