@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@nestjs/common';
-import {WxAccessToken} from "dto/auth/wx_access_token.entity"
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { loginRsp } from 'proto/auth/login';
@@ -7,6 +6,7 @@ import { Logger } from 'winston';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { RedisService } from 'nestjs-redis';
 import { JwtService } from '@nestjs/jwt';
+import { WxAccessToken } from 'dto/auth/wx_access_token.entity';
 
 
 @Injectable()
