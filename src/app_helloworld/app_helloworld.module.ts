@@ -4,9 +4,8 @@ import { AppHelloworldController } from './app_helloworld.controller';
 import { AppAuthModule } from 'src/app_auth/app_auth.module';
 
 @Module({
-    imports:[AppAuthModule],
-    providers:[AppHelloworldService],
-    controllers:[AppHelloworldController],
+  imports: [AppAuthModule],
+  providers: [AppHelloworldService],
+  controllers: [AppHelloworldController],
 })
-
 export class AppHelloworldModule {}

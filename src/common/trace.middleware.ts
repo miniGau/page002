@@ -13,7 +13,10 @@ const traceStorage = cls.createNamespace('traceStorage');
 export class TraceMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     traceStorage.run(() => {
-      const traceId = req.headers['X-Request-Id'] || req.headers['x-api-requestid'] || uuid.v4();
+      const traceId =
+        req.headers['X-Request-Id'] ||
+        req.headers['x-api-requestid'] ||
+        uuid.v4();
       traceStorage.set('traceId', traceId);
       return next();
     });

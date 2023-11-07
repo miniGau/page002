@@ -4,4 +4,5 @@
 
 import * as cls from 'cls-hooked';
 
-export const getTraceId = () => cls.getNamespace('traceStorage')?.get('traceId') || '';
+export const getTraceId = () =>
+  cls.getNamespace('traceStorage')?.get('traceId') || '';

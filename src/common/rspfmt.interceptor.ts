@@ -16,15 +16,19 @@ export class RspFormatInterceptor implements NestInterceptor {
     const http = context.switchToHttp();
     const res = http.getResponse();
     const req = http.getRequest();
-    
-    const now = Date.now()
+
+    const now = Date.now();
     return next.handle().pipe(
       map((data) => {
         if (data.status) {
           res.status(data.status);
         }
-         
-        console.log(`req:${JSON.stringify(req.body)} rsp:${JSON.stringify(data)} cost:${Date.now() - now}ms`)
+
+        console.log(
+          `req:${JSON.stringify(req.body)} rsp:${JSON.stringify(data)} cost:${
+            Date.now() - now
+          }ms`,
+        );
         return data.body
           ? data.body
           : {
