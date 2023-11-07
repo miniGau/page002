@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppHelloworldController } from './app_helloworld.controller';
 import { AppHelloworldService } from './app_helloworld.service';
+import { AppHelloworldController } from './app_helloworld.controller';
+import { AppAuthModule } from 'src/app_auth/app_auth.module';
 
 @Module({
-  controllers: [AppHelloworldController],
-  providers: [AppHelloworldService]
+    imports:[AppAuthModule],
+    providers:[AppHelloworldService],
+    controllers:[AppHelloworldController],
 })
+
 export class AppHelloworldModule {}
