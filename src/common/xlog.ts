@@ -1,9 +1,9 @@
 import * as winston from 'winston';
 import * as path from 'path';
-import DailyRotateFile from 'winston-daily-rotate-file';
+import 'winston-daily-rotate-file';
 import { getTraceId } from './cls';
 
-const fileTransport = new DailyRotateFile({
+const fileTransport = new winston.transports.DailyRotateFile({
   filename: path.join(__dirname, 'xlogs', `%DATE%.log`),
   datePattern: 'YYYY-MM-DD',
   json: true,
