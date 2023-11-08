@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
     const bid: string = req.cookies.bid;
 
     // 查询登录态
-    let authObj = this.authService.signIn(bid, uid, token);
+    const authObj = this.authService.signIn(bid, uid, token);
     if (authObj == null) {
       throw new UnauthorizedException();
     }

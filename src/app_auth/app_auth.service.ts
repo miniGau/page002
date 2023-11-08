@@ -5,7 +5,7 @@ import { loginRsp } from 'proto/auth/login';
 export class AppAuthService {
   async signIn(bid: string, uid: string, token: string) {
     // 写登录时间
-    var ts = Date.now() / 1000;
+    const ts = Date.now() / 1000;
     const rst: loginRsp = {
       LastLogin: ts,
     };

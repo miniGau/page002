@@ -14,7 +14,7 @@ const format = winston.format.combine(
     format: 'YYYY-MM-DD HH:mm:ss.SSS',
   }),
   winston.format.printf(({ timestamp, message, ...info }) => {
-    let traceId = getTraceId();
+    const traceId = getTraceId();
     const str = `${timestamp}|${
       process.pid
     }|${message}|${traceId}|${JSON.stringify(info)}\n`;

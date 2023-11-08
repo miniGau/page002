@@ -1,8 +1,8 @@
 import { Controller, Post, Inject } from '@nestjs/common';
 import { loginRsp } from 'proto/auth/login';
 import { AppAuthService } from './app_auth.service';
-import { Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Req } from '@nestjs/common';
+import { Request  } from 'express';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 

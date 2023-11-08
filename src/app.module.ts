@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { AppAuthModule } from './app_auth/app_auth.module';
 import { NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TraceMiddleware } from './common/trace.middleware';
@@ -34,9 +34,9 @@ export const configModule = ConfigModule.forRoot({
           format: 'YYYY-MM-DD HH:mm:ss.SSS',
         }),
         winston.format.printf(({ timestamp, message, ...info }) => {
-          let traceId = getTraceId();
-          let parts = __filename.split('/');
-          let fn = parts[parts.length - 1] + '/' + parts.pop();
+          const traceId = getTraceId();
+          const parts = __filename.split('/');
+          const fn = parts[parts.length - 1] + '/' + parts.pop();
           const str = `${timestamp} ${JSON.stringify(info)} ${fn} ${
             process.pid
           } ${traceId} \t ${message}`;

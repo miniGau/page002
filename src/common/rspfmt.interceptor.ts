@@ -25,9 +25,9 @@ export class RspFormatInterceptor implements NestInterceptor {
         }
 
         console.log(
-          `reqId:${getTraceId()} req:${JSON.stringify(req.body)} rsp:${JSON.stringify(data)} cost:${
-            Date.now() - now
-          }ms`,
+          `reqId:${getTraceId()} req:${JSON.stringify(
+            req.body,
+          )} rsp:${JSON.stringify(data)} cost:${Date.now() - now}ms`,
         );
         return data.body
           ? data.body
