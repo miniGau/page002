@@ -36,3 +36,4 @@ lerna-debug.log*
 
 src/config/*.yaml
 local.settings.json
+*.env

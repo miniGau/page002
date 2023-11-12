@@ -1,10 +1,12 @@
-import { Controller, Post, Inject } from '@nestjs/common';
+import { Controller, Post, Inject, Get, Render } from '@nestjs/common';
 import { loginRsp } from 'proto/auth/login';
 import { AppAuthService } from './app_auth.service';
 import { Req } from '@nestjs/common';
 import { Request } from 'express';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
+import * as passport from 'passport';
+import { get } from 'http';
 
 @Controller('auth')
 export class AppAuthController {
@@ -38,4 +40,12 @@ export class AppAuthController {
 
     return authObj;
   }
+
+  @Get()
+  @Render('login.ejs')
+  root() {
+    return { user: 'xiaoming' };
+  }
+
+  facebook() {}
 }
