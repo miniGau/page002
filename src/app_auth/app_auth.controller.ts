@@ -1,12 +1,19 @@
-import { Controller, Post, Inject, Get, Render } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Inject,
+  Get,
+  Render,
+  UseGuards,
+  HttpStatus,
+} from '@nestjs/common';
 import { loginRsp } from 'proto/auth/login';
 import { AppAuthService } from './app_auth.service';
-import { Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
-import * as passport from 'passport';
-import { get } from 'http';
+import { GoogleOauthGuard } from './google-oauth.guard';
 
 @Controller('auth')
 export class AppAuthController {
@@ -23,22 +30,6 @@ export class AppAuthController {
       this.logger.warn('login cookie is null');
       return;
     }
-
-    const uid = request.cookies['uid'];
-    const token = request.cookies['access_token'];
-    const bid = request.cookies['bid'];
-
-    if (uid == null || token == null) {
-      this.logger.warn('login uid ${uid} or token ${token} is nil');
-      return;
-    }
-
-    const authObj = await this.authService.signIn(bid, uid, token);
-    this.logger.info(
-      `login uid: ${uid} token ${token} auth obj: ${JSON.stringify(authObj)}`,
-    );
-
-    return authObj;
   }
 
   @Get()
@@ -47,5 +38,22 @@ export class AppAuthController {
     return { user: 'xiaoming' };
   }
 
-  facebook() {}
+  @Get('google')
+  @UseGuards(GoogleOauthGuard)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async auth() {}
+
+  @Get('google/callback')
+  @UseGuards(GoogleOauthGuard)
+  async googleAuthCallback(@Req() req, @Res() res: Response) {
+    const token = await this.authService.signIn(req.user);
+
+    res.cookie('access_token', token, {
+      maxAge: 2592000000,
+      sameSite: true,
+      secure: false,
+    });
+
+    return res.status(HttpStatus.OK);
+  }
 }

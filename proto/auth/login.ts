@@ -6,3 +6,9 @@ export class loginReq {}
 export class loginRsp {
   LastLogin: number;
 }
+
+export class RegisterUserDto {
+  username: string;
+  email: string;
+  id: string;
+}

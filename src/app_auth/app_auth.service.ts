@@ -1,21 +1,61 @@
-import { Injectable } from '@nestjs/common';
-import { loginRsp } from 'proto/auth/login';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { generateFromEmail } from 'unique-username-generator';
 
+import { User } from 'dto/auth/user.entity';
+import { RegisterUserDto } from 'proto/auth/login';
 @Injectable()
 export class AppAuthService {
-  async signIn(bid: string, uid: string, token: string) {
-    // 写登录时间
-    const ts = Date.now() / 1000;
-    const rst: loginRsp = {
-      LastLogin: ts,
-    };
+  constructor(
+    private jwtService: JwtService,
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
-    return rst;
+  generateJwt(payload) {
+    return this.jwtService.sign(payload);
   }
 
-  async checkSign(bid: string, uid: string, token: string) {}
+  async signIn(user) {
+    if (!user) {
+      throw new BadRequestException('Unauthenticated');
+    }
 
-  genJwt(uid: string, token: string): string {
-    return '';
+    const userExists = await this.findUserByEmail(user.email);
+
+    if (!userExists) {
+      return this.registerUser(user);
+    }
+
+    return this.generateJwt({
+      sub: userExists.id,
+      email: userExists.email,
+    });
+  }
+
+  async registerUser(user: RegisterUserDto) {
+    try {
+      const newUser = this.userRepository.create(user);
+      newUser.username = generateFromEmail(user.email, 5);
+
+      await this.userRepository.save(newUser);
+
+      return this.generateJwt({
+        sub: newUser.id,
+        email: newUser.email,
+      });
+    } catch {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async findUserByEmail(email) {
+    console.log(email);
+    return null;
   }
 }
