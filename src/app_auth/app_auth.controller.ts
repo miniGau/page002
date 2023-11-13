@@ -14,11 +14,15 @@ import { Request, Response } from 'express';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { GoogleOauthGuard } from './google-oauth.guard';
+import { Container } from '@azure/cosmos';
+import { AuthEntity } from 'dto/auth/auth.entity';
+import { InjectModel } from '@nestjs/azure-database';
 
 @Controller('auth')
 export class AppAuthController {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    @InjectModel(AuthEntity) private readonly carContainer: Container,
     private readonly authService: AppAuthService,
   ) {}
 

@@ -12,7 +12,7 @@ import { AppHelloworldModule } from './app_helloworld/app_helloworld.module';
 import { RspFormatInterceptor } from './common/rspfmt.interceptor';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import configuration from './config/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { AzureCosmosDbModule } from '@nestjs/azure-database';
 
 @Module({
   imports: [
@@ -41,7 +41,13 @@ import { MongooseModule } from '@nestjs/mongoose';
       defaultMeta: { service: 'user-service' },
       transports: [new winston.transports.Console()],
     }),
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+
+    AzureCosmosDbModule.forRoot({
+      dbName: 'Vehicles',
+      endpoint: 'your_azrue_comosdb_url',
+      key: 'your_azure_cosmosdb_primary_key',
+    }),
+
     AppAuthModule,
     AppUserModule,
     AppHelloworldModule,

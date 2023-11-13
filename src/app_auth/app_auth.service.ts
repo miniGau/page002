@@ -4,17 +4,17 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { generateFromEmail } from 'unique-username-generator';
-
-import { User } from 'dto/auth/user.entity';
+import { InjectModel } from '@nestjs/azure-database';
+import { Container } from '@azure/cosmos';
 import { RegisterUserDto } from 'proto/auth/login';
+import { User } from 'dto/user/user.entity';
+import { IUser } from './auth-user.dto';
 @Injectable()
 export class AppAuthService {
   constructor(
     private jwtService: JwtService,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectModel(User) private readonly userRepository: Container,
   ) {}
 
   generateJwt(payload) {
@@ -32,22 +32,22 @@ export class AppAuthService {
       return this.registerUser(user);
     }
 
+    const usrObj = userExists[0];
+
     return this.generateJwt({
-      sub: userExists.id,
-      email: userExists.email,
+      sub: usrObj.id,
+      email: usrObj.email,
     });
   }
 
   async registerUser(user: RegisterUserDto) {
     try {
-      const newUser = this.userRepository.create(user);
-      newUser.username = generateFromEmail(user.email, 5);
-
-      await this.userRepository.save(newUser);
+      const { resource } = await this.userRepository.items.create(user);
+      const userName = generateFromEmail(user.email, 5);
 
       return this.generateJwt({
-        sub: newUser.id,
-        email: newUser.email,
+        sub: userName,
+        email: resource.email,
       });
     } catch {
       throw new InternalServerErrorException();
@@ -56,6 +56,21 @@ export class AppAuthService {
 
   async findUserByEmail(email) {
     console.log(email);
-    return null;
+    const sqlQuery = `select * from auth_history where email=${email}`;
+    const consmosResults = await this.userRepository?.items
+      ?.query<User>(sqlQuery)
+      .fetchAll();
+
+    const fanal = consmosResults.resources.map<IUser>((value) => {
+      return {
+        id: value.id,
+        userId: value.userId,
+        userName: value.username,
+        email: value.email,
+        picture: value.picture,
+      };
+    });
+
+    return fanal;
   }
 }
