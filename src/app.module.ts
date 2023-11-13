@@ -11,20 +11,15 @@ import { AppUserModule } from './app_user/app_user.module';
 import { AppHelloworldModule } from './app_helloworld/app_helloworld.module';
 import { RspFormatInterceptor } from './common/rspfmt.interceptor';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
-import config from './config/config';
-
-// 配置模块
-export const configModule = ConfigModule.forRoot({
-  ignoreEnvFile: true,
-  // 全局注入配置
-  isGlobal: true,
-  load: [() => config],
-});
+import configuration from './config/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     // 加载配置
-    ConfigModule.forRoot({ load: [config] }),
+    ConfigModule.forRoot({
+      load: [configuration],
+    }),
 
     // 加载日志
     WinstonModule.forRoot({
@@ -46,6 +41,7 @@ export const configModule = ConfigModule.forRoot({
       defaultMeta: { service: 'user-service' },
       transports: [new winston.transports.Console()],
     }),
+    MongooseModule.forRoot('mongodb://localhost/nest'),
     AppAuthModule,
     AppUserModule,
     AppHelloworldModule,
