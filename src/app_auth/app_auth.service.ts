@@ -8,8 +8,8 @@ import { generateFromEmail } from 'unique-username-generator';
 import { InjectModel } from '@nestjs/azure-database';
 import { Container } from '@azure/cosmos';
 import { RegisterUserDto } from 'proto/auth/login';
-import { User } from 'dto/user/user.entity';
-import { IUser } from './auth-user.dto';
+import { User } from 'dto/auth/user.entity';
+import { IUser } from 'proto/auth/auth-user.dto';
 @Injectable()
 export class AppAuthService {
   constructor(

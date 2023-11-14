@@ -15,14 +15,14 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { GoogleOauthGuard } from './google-oauth.guard';
 import { Container } from '@azure/cosmos';
-import { AuthEntity } from 'dto/auth/auth.entity';
+import { User } from 'dto/auth/user.entity';
 import { InjectModel } from '@nestjs/azure-database';
 
 @Controller('auth')
 export class AppAuthController {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-    @InjectModel(AuthEntity) private readonly carContainer: Container,
+    @InjectModel(User) private readonly userContainer: Container,
     private readonly authService: AppAuthService,
   ) {}
 
@@ -49,7 +49,7 @@ export class AppAuthController {
 
   @Get('google/callback')
   @UseGuards(GoogleOauthGuard)
-  async googleAuthCallback(@Req() req, @Res() res: Response) {
+  async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
     const token = await this.authService.signIn(req.user);
 
     res.cookie('access_token', token, {

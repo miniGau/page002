@@ -1,9 +1,9 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from 'dto/user/user.entity';
+import { TbUserName, User } from 'dto/auth/user.entity';
+import { InjectModel } from '@nestjs/azure-database';
+import { Container } from '@azure/cosmos';
 
 export type JwtPayload = {
   sub: string;
@@ -12,10 +12,7 @@ export type JwtPayload = {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(
-    //@Inject(config.KEY) private configService: ConfigType<typeof config>,
-    @InjectRepository(User) private userRepository: Repository<User>,
-  ) {
+  constructor(@InjectModel(User) private readonly userRepository: Container) {
     const extractJwtFromCookie = (req) => {
       let token = null;
       if (req && req.cookies) {
@@ -32,7 +29,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    const user = await this.userRepository.findOne({ id: payload.sub });
+    const sqlQuery = `select * from ${TbUserName} where email=${payload.email}`;
+    const user = await this.userRepository.items
+      .query<User>(sqlQuery)
+      .fetchAll();
 
     if (!user) throw new UnauthorizedException('Please log in to continue');
 

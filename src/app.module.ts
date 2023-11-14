@@ -13,6 +13,7 @@ import { RspFormatInterceptor } from './common/rspfmt.interceptor';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
 import configuration from './config/config';
 import { AzureCosmosDbModule } from '@nestjs/azure-database';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -53,7 +54,7 @@ import { AzureCosmosDbModule } from '@nestjs/azure-database';
     AppHelloworldModule,
   ],
 
-  controllers: [],
+  controllers: [AppController],
 
   providers: [
     {

@@ -2,13 +2,11 @@ import { Module } from '@nestjs/common';
 import { AzureCosmosDbModule } from '@nestjs/azure-database';
 import { AppAuthController } from './app_auth.controller';
 import { AppAuthService } from './app_auth.service';
-import { AuthEntity } from 'dto/auth/auth.entity';
+import { User } from 'dto/auth/user.entity';
 
 @Module({
   imports: [
-    AzureCosmosDbModule.forFeature([
-      { collection: 'auth_history', dto: AuthEntity },
-    ]),
+    AzureCosmosDbModule.forFeature([{ collection: 'user_info', dto: User }]),
   ],
   providers: [AppAuthService],
   controllers: [AppAuthController],
