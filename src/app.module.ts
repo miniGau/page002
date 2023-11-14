@@ -44,8 +44,8 @@ import { AppController } from './app.controller';
     }),
 
     AzureCosmosDbModule.forRoot({
-      dbName: 'Vehicles',
-      endpoint: 'your_azrue_comosdb_url',
+      dbName: process.env.db_name,
+      endpoint: process.env.endpoint,
       key: 'your_azure_cosmosdb_primary_key',
     }),
 

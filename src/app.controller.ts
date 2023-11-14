@@ -5,6 +5,6 @@ export class AppController {
   @Get()
   @Render('index.ejs')
   root() {
-    return { message: 'Hello world!' };
+    return { user: { name: 'xiaoming' } };
   }
 }
