@@ -11,9 +11,9 @@ import { AppUserModule } from './app_user/app_user.module';
 import { AppHelloworldModule } from './app_helloworld/app_helloworld.module';
 import { RspFormatInterceptor } from './common/rspfmt.interceptor';
 import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core';
-import configuration from './config/config';
 import { AzureCosmosDbModule } from '@nestjs/azure-database';
 import { AppController } from './app.controller';
+import { configuration } from './config/config';
 
 @Module({
   imports: [
@@ -44,9 +44,9 @@ import { AppController } from './app.controller';
     }),
 
     AzureCosmosDbModule.forRoot({
-      dbName: process.env.db_name,
-      endpoint: process.env.endpoint,
-      key: 'your_azure_cosmosdb_primary_key',
+      dbName: process.env.azure_db_name,
+      endpoint: process.env.azure_endpoint,
+      key: process.env.azure_primary_key,
     }),
 
     AppAuthModule,

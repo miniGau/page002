@@ -1,6 +1,3 @@
-import { CosmosPartitionKey } from '@nestjs/azure-database';
-
-@CosmosPartitionKey('userId')
 export class User {
   id: string;
   userId: number;
@@ -13,4 +10,4 @@ export class User {
   expired: number;
 }
 
-export const TbUserName = 'user_info';
+export const TbUserName = 'tb_user_info';
